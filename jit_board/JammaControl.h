@@ -38,6 +38,8 @@ class JammaControl final {
   // player # (0 origin)
   void InsertCoin(uint8_t player);
 
+  void DriveCoin(bool p1, bool p2);
+
   // TEST     | - ...
   // 1P Start | Service  | 1P up    | 1P down  | 1P left | 1P right | 1P push1 | 1P push2
   // 1P push3 | 1P push4 | 1P push5 | 1P push6 | -       | -        | -        | -
@@ -47,4 +49,3 @@ class JammaControl final {
 };
 
 #endif  // __JammaControl_H__
-

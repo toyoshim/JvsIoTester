@@ -92,3 +92,13 @@ void JammaControl::InsertCoin(uint8_t player) {
   delay(50);
 }
 
+void JammaControl::DriveCoin(bool p1, bool p2) {
+  if (p1)
+    DDRB |= 0x01;
+  else
+    DDRB &= ~0x01;
+  if (p2)
+    DDRC |= 0x01;
+  else
+    DDRC &= ~0x01;
+}

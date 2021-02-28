@@ -10,6 +10,7 @@ OBJCOPY	= avr-objcopy
 MCU	= atmega32a
 LFLAGS	= -Wall -mmcu=$(MCU)
 TARGET	= jit
+# Use jvs_decoder.o instead of main.o to build a jvs decode example.
 OBJS	= Arduino.o JammaControl.o JVSIO.o JVSIOClient.o main.o
 
 all: $(TARGET).hex
