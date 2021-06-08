@@ -26,6 +26,14 @@ ISR(USART_RXC_vect) {
   }
 }
 
+void PrintVolt(uint8_t val) {
+  uint16_t v = val * 50 / 255;
+  Serial.print(v / 10, DEC);
+  Serial.print(".");
+  Serial.print(v % 10, DEC);
+  Serial.println("[V]");
+}
+
 }  // namespace
 
 JVSIODataClient::JVSIODataClient() {
@@ -190,7 +198,14 @@ bool JVSIOSenseClient::is_ready() {
   while (0 == (ADCSRA & _BV(ADIF)));
   ADCSRA &= ~ADIF;
   uint8_t val = ADCH;
-  return val < 50;  // < ~1V
+  bool result = val < 50;  // < ~1V
+  State state = result ? State::kTrue : State::kFalse;
+  if (state != was_ready) {
+    was_ready = state;
+    Serial.println(result ? "Ready" : "Not Ready");
+    PrintVolt(val);
+  }
+  return result;
 }
 
 bool JVSIOSenseClient::is_connected() {
@@ -198,5 +213,12 @@ bool JVSIOSenseClient::is_connected() {
   while (0 == (ADCSRA & _BV(ADIF)));
   ADCSRA &= ~ADIF;
   uint8_t val = ADCH;
-  return val < 175;  // < ~3.5V
+  bool result = val < 175;  // < ~3.5V
+  State state = result ? State::kTrue : State::kFalse;
+  if (state != was_connected) {
+    was_connected = state;
+    Serial.println(result ? "Connected" : "Disconnected");
+    PrintVolt(val);
+  }
+  return result;
 }

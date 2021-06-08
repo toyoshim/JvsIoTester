@@ -23,7 +23,9 @@ size: $(TARGET).elf
 
 program: $(TARGET).hex
 	avrdude -C ~/opt/etc/avrdude.conf -c usbtiny -pm32 -U flash:w:$<
-#	hidspx $<
+
+hidspx: $(TARGET).hex
+	hidspx $<
 
 # Fuse High - 1100 1001 - !OCDEN | !JTAGEN | SPIEN | CKOPT | !EESAVE | BOOT(APP)
 # Fuse Low  - 1110 1111 - !BODLEVEL | !BODEN | SUT(10) | CLSEL(1111-EXT)

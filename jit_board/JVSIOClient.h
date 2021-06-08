@@ -30,6 +30,15 @@ class JVSIOSenseClient final : public JVSIO::SenseClient {
   void begin() override;
   bool is_ready() override;
   bool is_connected() override;
+
+  enum class State {
+    kNotInitialized,
+    kTrue,
+    kFalse,
+  };
+
+  State was_ready = State::kNotInitialized;
+  State was_connected = State::kNotInitialized;
 };
 
 #endif  // __JVSIOClient_H__
