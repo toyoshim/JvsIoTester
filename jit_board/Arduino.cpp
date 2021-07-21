@@ -62,9 +62,9 @@ void SerialLibrary::print(uint8_t val, enum Type type) {
     for (int i = 0x80; i; i >>= 1)
       print((val & i) ? '1' : '0');
   } else if (type == DEC) {
-    if (val > 100)
+    if (val >= 100)
       print(U4ToHex(val / 100));
-    if (val > 10)
+    if (val >= 10)
       print(U4ToHex((val % 100) / 10));
     print(U4ToHex(val % 10));
   } else if (type == HEX) {
