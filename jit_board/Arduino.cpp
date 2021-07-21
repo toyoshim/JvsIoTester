@@ -16,8 +16,7 @@ char U4ToHex(uint8_t val) {
 
 void delayU8x1usec(uint8_t x1us) {
   // At 16MHz, 1us = 16tau
-  asm (
-      "mov r18, %0\n"  // 1t
+  asm("mov r18, %0\n"  // 1t
       "1:\n"           // LOOP 1: 16t
       "ldi r19, 4\n"   //  1t
       "2:\n"           //  LOOP 2: 11t
@@ -26,8 +25,8 @@ void delayU8x1usec(uint8_t x1us) {
       "nop\n"          // 1t
       "dec r18\n"      // 1t
       "brne 1b\n"      // 2t (1t for not taken)
-  :: "r" (x1us)
-  : "r18", "r19");
+      ::"r"(x1us)
+      : "r18", "r19");
 }
 
 }  // namespace
@@ -52,7 +51,8 @@ SerialLibrary::SerialLibrary() {
 
 void SerialLibrary::print(uint8_t val) {
 #if !defined(NO_DEBUG)
-  while (!(UCSRA & (1 << UDRE)));
+  while (!(UCSRA & (1 << UDRE)))
+    ;
   UDR = val;
 #endif
 }
@@ -111,4 +111,3 @@ void delay(uint32_t ms) {
   for (uint32_t i = 0; i < ms; ++i)
     delayMicroseconds(1000);
 }
-
